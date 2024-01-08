@@ -3,8 +3,8 @@ import { Answer } from '../entities/answer'
 import { AnswerRepository } from '../repositories/answer-repository'
 
 interface AnswerQuestionUseCaseProps {
-  instructorId: UniqueEntityId
-  questionId: UniqueEntityId
+  instructorId: string
+  questionId: string
   content: string
 }
 
@@ -16,10 +16,10 @@ export class AnswerQuestionUseCase {
     questionId,
     content,
   }: AnswerQuestionUseCaseProps) {
-    const answer = new Answer({
+    const answer = Answer.create({
       content,
-      authorId: instructorId,
-      questionId,
+      authorId: new UniqueEntityId(instructorId),
+      questionId: new UniqueEntityId(questionId),
     })
 
     await this.answerRepository.create(answer)
