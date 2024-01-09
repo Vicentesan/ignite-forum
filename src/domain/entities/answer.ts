@@ -35,6 +35,17 @@ export class Answer extends Entity<AnswerProps> {
     return this.content.substring(0, 120).trimEnd().concat('...')
   }
 
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  set content(content: string) {
+    this.props.content = content
+
+    this.touch()
+  }
+
   static create(
     props: Optional<AnswerProps, 'createdAt'>,
     id?: UniqueEntityId,
