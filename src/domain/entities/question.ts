@@ -51,6 +51,32 @@ export class Question extends Entity<QuestionProps> {
     return this.content.substring(0, 120).trimEnd().concat('...')
   }
 
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  set title(title: string) {
+    this.props.title = title
+    this.props.slug = Slug.createFromText(title)
+
+    this.touch()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  set content(content: string) {
+    this.props.content = content
+
+    this.touch()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  set bestAnswerId(bestAnswerId: UniqueEntityId | undefined) {
+    this.props.bestAnswerId = bestAnswerId
+
+    this.touch()
+  }
+
   static create(
     props: Optional<QuestionProps, 'createdAt' | 'slug'>,
     id?: UniqueEntityId,
