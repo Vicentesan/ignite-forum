@@ -43,6 +43,10 @@ export class Question extends Entity<QuestionProps> {
     return this.props.updatedAt
   }
 
+  get isNew(): boolean {
+    return dayjs().diff(this.createdAt, 'days') <= 3
+  }
+
   get excerpt() {
     return this.content.substring(0, 120).trimEnd().concat('...')
   }
