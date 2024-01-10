@@ -32,7 +32,7 @@ describe('Delete Answer', () => {
     expect(async () => {
       return await sut.execute({
         answerId: newAnswer.id.toString(),
-        authorId: 'diff-user',
+        authorId: 'diff-author',
       })
     }).rejects.toBeInstanceOf(Error)
   })

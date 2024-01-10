@@ -1,30 +1,35 @@
 import { MakeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
-import { DeleteQuestionUseCase } from './delete-question'
+import { EditQuestionUseCase } from './edit-question'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let sut: DeleteQuestionUseCase
+let sut: EditQuestionUseCase
 
-describe('Delete Question', () => {
+describe('Edit Question', () => {
   beforeEach(() => {
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
-    sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository)
+    sut = new EditQuestionUseCase(inMemoryQuestionsRepository)
   })
 
-  it('should be able to delete a question', async () => {
+  it('should be able to edit a question', async () => {
     const newQuestion = MakeQuestion()
 
     await inMemoryQuestionsRepository.create(newQuestion)
 
     await sut.execute({
-      questionId: newQuestion.id.toString(),
       authorId: newQuestion.authorId.toString(),
+      questionId: newQuestion.id.toString(),
+      title: 'new title',
+      content: 'new content',
     })
 
-    expect(inMemoryQuestionsRepository.items).toHaveLength(0)
+    expect(inMemoryQuestionsRepository.items[0]).toMatchObject({
+      title: 'new title',
+      content: 'new content',
+    })
   })
 
-  it('should not be able to delete a question from another user', async () => {
+  it('should not be able to edit a question from another user', async () => {
     const newQuestion = MakeQuestion()
 
     await inMemoryQuestionsRepository.create(newQuestion)
@@ -33,6 +38,8 @@ describe('Delete Question', () => {
       return await sut.execute({
         questionId: newQuestion.id.toString(),
         authorId: 'diff-author',
+        title: 'new title',
+        content: 'new content',
       })
     }).rejects.toBeInstanceOf(Error)
   })

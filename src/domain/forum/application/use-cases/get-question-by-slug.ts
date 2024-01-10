@@ -6,6 +6,7 @@ interface GetQuestionBySlugUseCaseProps {
 }
 
 interface GetQuestionBySlugUseCaseResponse {
+  success: boolean
   question: Question
 }
 
@@ -19,6 +20,6 @@ export class GetQuestionBySlugUseCase {
 
     if (!question) throw new Error('Question not found.')
 
-    return { question }
+    return { success: true, question }
   }
 }

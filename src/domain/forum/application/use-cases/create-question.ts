@@ -9,6 +9,7 @@ interface CreateQuestionUseCaseProps {
 }
 
 interface CreateQuestionUseCaseResponse {
+  success: boolean
   question: Question
 }
 
@@ -28,6 +29,6 @@ export class CreateQuestionUseCase {
 
     await this.questionsRepository.create(question)
 
-    return { question }
+    return { success: true, question }
   }
 }
