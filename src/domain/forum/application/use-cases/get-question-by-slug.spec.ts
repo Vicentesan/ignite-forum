@@ -6,13 +6,13 @@ import { Slug } from '../../enterprise/entities/value-object/slug'
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let sut: GetQuestionBySlugUseCase
 
-describe('Get Question By Slug', () => {
+describe('Delete Question', () => {
   beforeEach(() => {
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
     sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository)
   })
 
-  it('should be able to get an question by slug', async () => {
+  it('should be able to get a question by slug', async () => {
     const newQuestion = MakeQuestion({
       slug: Slug.create('example-question'),
     })
