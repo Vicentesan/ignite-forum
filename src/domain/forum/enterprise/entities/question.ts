@@ -1,20 +1,24 @@
-import dayjs from 'dayjs'
-import { Slug } from './value-object/slug'
+/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Entity } from '@/core/entities/entity'
 import { Optional } from '@/core/types/optional'
+import { Slug } from './value-object/slug'
+import { QuestionAttachment } from './question-attachment'
+
+import dayjs from 'dayjs'
 
 export interface QuestionProps {
   authorId: UniqueEntityId
   title: string
   content: string
+  attachments: QuestionAttachment[]
   bestAnswerId?: UniqueEntityId
   slug: Slug
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Question extends Entity<QuestionProps> {
+export class Question extends AggregateRoot<QuestionProps> {
   get authorId() {
     return this.props.authorId
   }
@@ -25,6 +29,10 @@ export class Question extends Entity<QuestionProps> {
 
   get content() {
     return this.props.content
+  }
+
+  get attachments() {
+    return this.props.attachments
   }
 
   get bestAnswerId() {
@@ -55,7 +63,6 @@ export class Question extends Entity<QuestionProps> {
     this.props.updatedAt = new Date()
   }
 
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   set title(title: string) {
     this.props.title = title
     this.props.slug = Slug.createFromText(title)
@@ -63,14 +70,18 @@ export class Question extends Entity<QuestionProps> {
     this.touch()
   }
 
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   set content(content: string) {
     this.props.content = content
 
     this.touch()
   }
 
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
+  set attachments(attachments: QuestionAttachment[]) {
+    this.props.attachments = attachments
+
+    this.touch()
+  }
+
   set bestAnswerId(bestAnswerId: UniqueEntityId | undefined) {
     this.props.bestAnswerId = bestAnswerId
 
@@ -78,13 +89,14 @@ export class Question extends Entity<QuestionProps> {
   }
 
   static create(
-    props: Optional<QuestionProps, 'createdAt' | 'slug'>,
+    props: Optional<QuestionProps, 'createdAt' | 'slug' | 'attachments'>,
     id?: UniqueEntityId,
   ) {
     const question = new Question(
       {
         ...props,
         slug: props.slug ?? Slug.createFromText(props.title),
+        attachments: props.attachments ?? [],
         createdAt: props.createdAt ?? new Date(),
       },
       id,
