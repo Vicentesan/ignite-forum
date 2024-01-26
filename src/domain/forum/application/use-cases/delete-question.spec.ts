@@ -3,7 +3,7 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { DeleteQuestionUseCase } from './delete-question'
 import { NotAllowedError } from './errors/not-allowed-error'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
-import { MakeQuestionAttachments } from 'test/factories/make-question-attachment'
+import { MakeQuestionAttachment } from 'test/factories/make-question-attachment'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
@@ -26,11 +26,11 @@ describe('Delete Question', () => {
     await inMemoryQuestionsRepository.create(newQuestion)
 
     inMemoryQuestionAttachmentsRepository.items.push(
-      MakeQuestionAttachments({
+      MakeQuestionAttachment({
         attachmentId: new UniqueEntityId('1'),
         questionId: newQuestion.id,
       }),
-      MakeQuestionAttachments({
+      MakeQuestionAttachment({
         attachmentId: new UniqueEntityId('2'),
         questionId: newQuestion.id,
       }),

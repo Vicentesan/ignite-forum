@@ -4,7 +4,7 @@ import {
   QuestionAttachmentsProps,
 } from '@/domain/forum/enterprise/entities/question-attachment'
 
-export function MakeQuestionAttachments(
+export function MakeQuestionAttachment(
   override: Partial<QuestionAttachmentsProps> = {},
   id?: UniqueEntityId,
 ) {
