@@ -3,7 +3,7 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-export interface NotifactionProps {
+export interface NotificationProps {
   recipientId: UniqueEntityId
   title: string
   content: string
@@ -11,7 +11,7 @@ export interface NotifactionProps {
   createdAt: Date
 }
 
-export class Notification extends Entity<NotifactionProps> {
+export class Notification extends Entity<NotificationProps> {
   get recipientId() {
     return this.props.recipientId
   }
@@ -32,24 +32,12 @@ export class Notification extends Entity<NotifactionProps> {
     return this.props.createdAt
   }
 
-  // set recipientId(recipientId: UniqueEntityId) {
-  //   this.props.recipientId = recipientId
-  // }
-
-  // set title(title: string) {
-  //   this.props.title = title
-  // }
-
-  // set content(content: string) {
-  //   this.props.content = content
-  // }
-
-  // set readAt(readAt: Date | undefined) {
-  //   this.props.readAt = readAt
-  // }
+  read() {
+    this.props.readAt = new Date()
+  }
 
   static create(
-    props: Optional<NotifactionProps, 'createdAt' | 'readAt'>,
+    props: Optional<NotificationProps, 'createdAt' | 'readAt'>,
     id?: UniqueEntityId,
   ) {
     const notification = new Notification(
