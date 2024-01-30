@@ -1,5 +1,5 @@
 import { Either, left, right } from '@/core/either'
-import { AnswerRepository } from '../repositories/answer-repository'
+import { AnswersRepository } from '../repositories/answer-repository'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 
@@ -17,7 +17,7 @@ type DeleteAnswerUseCaseResponse = Either<
 >
 
 export class DeleteAnswerUseCase {
-  constructor(private answersRepository: AnswerRepository) {}
+  constructor(private answersRepository: AnswersRepository) {}
 
   async execute({
     authorId,

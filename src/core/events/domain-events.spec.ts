@@ -22,7 +22,7 @@ class CustomAggregate extends AggregateRoot<null> {
   static create() {
     const aggregate = new CustomAggregate(null)
 
-    aggregate.addDomainEvente(new CustomAggregateCreated(aggregate))
+    aggregate.addDomainEvent(new CustomAggregateCreated(aggregate))
 
     return aggregate
   }

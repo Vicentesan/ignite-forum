@@ -1,6 +1,6 @@
 import { Either, left, right } from '@/core/either'
 import { Question } from '../../enterprise/entities/question'
-import { AnswerRepository } from '../repositories/answer-repository'
+import { AnswersRepository } from '../repositories/answer-repository'
 import { QuestionsRepository } from '../repositories/question-repository'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
@@ -21,14 +21,14 @@ type ChooseQuestionBestAnswerUseCaseResponse = Either<
 export class ChooseQuestionBestAnswerUseCase {
   constructor(
     private questionsRepository: QuestionsRepository,
-    private answerRepository: AnswerRepository,
+    private answersRepository: AnswersRepository,
   ) {}
 
   async execute({
     answerId,
     authorId,
   }: ChooseQuestionBestAnswerUseCaseProps): Promise<ChooseQuestionBestAnswerUseCaseResponse> {
-    const answer = await this.answerRepository.findById(answerId)
+    const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) return left(new ResourceNotFoundError())
 
